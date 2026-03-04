@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atharva Patil - Data Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Epilogue:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f4f6f9; --surface: #ffffff; --navy: #0d1b2a;
+  --ice: #a8c5da; --accent: #2563eb; --accent-light: #dbeafe;
+  --muted: #64748b; --border: #e2e8f0;
+  --shadow: 0 1px 3px rgba(13,27,42,0.06), 0 4px 16px rgba(13,27,42,0.06);
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--navy); font-family: 'Epilogue', sans-serif; font-weight: 400; line-height: 1.6; overflow-x: hidden; }
+
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; align-items: center; justify-content: space-between; padding: 1.1rem 4rem; background: rgba(244,246,249,0.92); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+.nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--navy); letter-spacing: -0.02em; text-decoration: none; }
+.nav-logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 2.5rem; }
+.nav-links a { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; letter-spacing: 0.06em; text-decoration: none; color: var(--muted); text-transform: uppercase; transition: color 0.2s; }
+.nav-links a:hover { color: var(--accent); }
+.nav-cta { font-family: 'Syne', sans-serif; font-size: 0.8rem; font-weight: 600; padding: 0.5rem 1.2rem; background: var(--navy); color: #fff; border-radius: 6px; text-decoration: none; transition: background 0.2s; }
+.nav-cta:hover { background: var(--accent); }
+
+#hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; align-items: center; padding: 8rem 4rem 4rem; gap: 6rem; position: relative; overflow: hidden; }
+.hero-bg { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 70% 60% at 80% 40%, rgba(37,99,235,0.06) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 5% 80%, rgba(168,197,218,0.1) 0%, transparent 60%); }
+.hero-bg::after { content: ''; position: absolute; inset: 0; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 60px 60px; opacity: 0.35; }
+.hero-left { position: relative; z-index: 1; }
+.hero-tag { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.67rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); background: var(--accent-light); border: 1px solid rgba(37,99,235,0.2); padding: 0.3rem 0.8rem; border-radius: 999px; margin-bottom: 1.6rem; animation: fadeUp 0.5s ease both; }
+h1 { font-family: 'Syne', sans-serif; font-size: clamp(3rem, 6vw, 5rem); font-weight: 800; line-height: 1.0; letter-spacing: -0.03em; color: var(--navy); animation: fadeUp 0.5s 0.08s ease both; }
+h1 .accent { color: var(--accent); }
+h1 .role { display: block; font-size: clamp(1rem, 1.8vw, 1.4rem); font-weight: 400; color: var(--muted); font-family: 'Epilogue', sans-serif; letter-spacing: 0; margin-top: 0.5rem; }
+.hero-actions { display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; animation: fadeUp 0.5s 0.16s ease both; }
+.btn-primary { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.85rem; padding: 0.7rem 1.6rem; background: var(--navy); color: #fff; border-radius: 8px; text-decoration: none; transition: all 0.2s; }
+.btn-primary:hover { background: var(--accent); transform: translateY(-1px); }
+.btn-ghost { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.85rem; padding: 0.7rem 1.6rem; background: transparent; color: var(--navy); border: 1.5px solid var(--border); border-radius: 8px; text-decoration: none; transition: all 0.2s; }
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+.hero-right { position: relative; z-index: 1; border-left: 1px solid var(--border); padding-left: 4rem; animation: fadeUp 0.5s 0.22s ease both; }
+.about-label { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.2rem; }
+.hero-right p { font-size: 0.95rem; color: var(--muted); line-height: 1.85; margin-bottom: 1rem; font-weight: 300; }
+.hero-right p strong { color: var(--navy); font-weight: 500; }
+.hero-right p em { font-style: italic; }
+
+section { padding: 6rem 4rem; }
+.section-label { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
+.section-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(1.8rem, 3vw, 2.5rem); color: var(--navy); letter-spacing: -0.02em; margin-bottom: 3rem; }
+.section-title span { color: var(--accent); }
+
+#skills { background: var(--bg); }
+.skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+.skill-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.4rem; box-shadow: var(--shadow); transition: transform 0.2s; }
+.skill-card:hover { transform: translateY(-2px); }
+.skill-cat { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.6rem; }
+.skill-card h4 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem; color: var(--navy); margin-bottom: 0.8rem; }
+.skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.skill-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.67rem; padding: 0.28rem 0.65rem; background: var(--bg); border: 1px solid var(--border); border-radius: 4px; color: var(--muted); }
+
+#projects { background: var(--surface); }
+.projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem; }
+.project-card { background: var(--bg); border: 1px solid var(--border); border-radius: 14px; padding: 1.8rem; position: relative; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; box-shadow: var(--shadow); }
+.project-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--accent), var(--ice)); }
+.project-card:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(13,27,42,0.1); }
+.project-lang { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'JetBrains Mono', monospace; font-size: 0.63rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.7rem; }
+.lang-dot { width: 8px; height: 8px; border-radius: 50%; }
+.project-card h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; color: var(--navy); margin-bottom: 0.6rem; line-height: 1.3; }
+.project-card p { font-size: 0.84rem; color: var(--muted); line-height: 1.75; margin-bottom: 1.1rem; }
+.project-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-bottom: 1.2rem; }
+.ptag { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 500; padding: 0.32rem 0.85rem; background: var(--accent-light); border: 1px solid rgba(37,99,235,0.18); border-radius: 99px; color: var(--accent); }
+.project-link { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.78rem; color: var(--accent); text-decoration: none; transition: gap 0.2s; }
+.project-link:hover { gap: 0.65rem; }
+
+#certifications { background: var(--bg); }
+.certs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1.1rem; }
+.cert-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.3rem 1.4rem; display: flex; gap: 1rem; align-items: flex-start; box-shadow: var(--shadow); transition: transform 0.2s, border-color 0.2s; }
+.cert-card:hover { transform: translateY(-2px); border-color: var(--accent); }
+.cert-logo { width: 42px; height: 42px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; font-weight: 700; }
+.cert-logo.aws { background: #232f3e; color: #ff9900; font-family: 'JetBrains Mono', monospace; font-size: 0.52rem; }
+.cert-logo.snow { background: #29b5e8; color: #fff; font-size: 0.6rem; font-family: 'JetBrains Mono', monospace; }
+.cert-logo.atlas { background: #0052cc; color: #fff; }
+.cert-logo.cssc { background: #1a472a; color: #fff; font-size: 0.72rem; font-family: 'Syne', sans-serif; }
+.cert-logo.hrank { background: #00a971; color: #fff; font-size: 0.8rem; font-family: 'Syne', sans-serif; }
+.cert-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem; color: var(--navy); line-height: 1.3; margin-bottom: 0.2rem; }
+.cert-issuer { font-size: 0.74rem; color: var(--muted); margin-bottom: 0.35rem; }
+.cert-date { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: var(--accent); }
+
+#looking-for { background: var(--surface); }
+.lf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+.lf-text p { font-size: 0.95rem; color: var(--muted); line-height: 1.85; margin-bottom: 1rem; }
+.lf-text p strong { color: var(--navy); font-weight: 500; }
+.lf-cards { display: flex; flex-direction: column; gap: 0.9rem; }
+.lf-card { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.2rem; display: flex; align-items: flex-start; gap: 0.9rem; }
+.lf-icon { width: 34px; height: 34px; border-radius: 7px; background: var(--accent-light); display: flex; align-items: center; justify-content: center; font-size: 0.95rem; flex-shrink: 0; }
+.lf-card strong { display: block; font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.84rem; color: var(--navy); margin-bottom: 0.15rem; }
+.lf-card span { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+
+#different { background: var(--bg); }
+.diff-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.diff-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 2rem; position: relative; overflow: hidden; box-shadow: var(--shadow); transition: transform 0.2s; }
+.diff-card:hover { transform: translateY(-2px); }
+.diff-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--accent), var(--ice)); }
+.diff-num { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.6rem; }
+.diff-card h3 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.05rem; color: var(--navy); margin-bottom: 0.6rem; }
+.diff-card p { font-size: 0.84rem; color: var(--muted); line-height: 1.75; }
+
+#contact { background: var(--navy); text-align: center; position: relative; overflow: hidden; }
+#contact::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 70% at 50% 110%, rgba(37,99,235,0.22) 0%, transparent 65%); }
+#contact .section-label { color: var(--ice); }
+#contact .section-title { color: #fff; margin-bottom: 0.8rem; }
+#contact .section-title span { color: var(--ice); }
+.contact-sub { color: rgba(255,255,255,0.45); font-size: 0.95rem; margin-bottom: 2.2rem; max-width: 44ch; margin-left: auto; margin-right: auto; }
+.contact-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; }
+.cbtn { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.88rem; padding: 0.8rem 1.8rem; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.55rem; transition: all 0.2s; }
+.cbtn.primary { background: var(--accent); color: #fff; }
+.cbtn.primary:hover { background: #1d4ed8; transform: translateY(-2px); }
+.cbtn.ghost { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.75); border: 1px solid rgba(255,255,255,0.14); }
+.cbtn.ghost:hover { background: rgba(255,255,255,0.13); }
+
+footer { background: #060d16; padding: 1.4rem 4rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+.footer-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem; color: rgba(255,255,255,0.35); }
+.footer-copy { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em; color: rgba(255,255,255,0.18); }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+.reveal { transition: opacity 0.55s ease, transform 0.55s ease; }
+.reveal.hidden { opacity: 0; transform: translateY(22px); }
+.reveal.visible { opacity: 1 !important; transform: none !important; }
+
+@media (max-width: 900px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  #hero { grid-template-columns: 1fr; gap: 3rem; padding: 7rem 1.5rem 3rem; }
+  .hero-right { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 2rem; }
+  section { padding: 4rem 1.5rem; }
+  .skills-grid { grid-template-columns: 1fr; }
+  .lf-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .diff-grid { grid-template-columns: 1fr; }
+  footer { padding: 1.2rem 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#hero">Atharva<span>.</span></a>
+  <div class="nav-links">
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#certifications">Certs</a>
+    <a href="#looking-for">Roles</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <a class="nav-cta" href="mailto:patilath98@gmail.com">Get In Touch</a>
+</nav>
+
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-left">
+    <div class="hero-tag">Open to opportunities</div>
+    <h1>
+      Atharva<br>
+      <span class="accent">Patil</span>
+      <span class="role">Data Engineer</span>
+    </h1>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-primary">View Projects</a>
+      <a href="https://github.com/AtharvaGitProfile" target="_blank" class="btn-ghost">GitHub</a>
+      <a href="https://www.linkedin.com/in/patilatharva/" target="_blank" class="btn-ghost">LinkedIn</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="about-label">About me</div>
+    <p>I am a Data Engineer with <strong>4 years of experience</strong> building data infrastructure that teams can depend on. My work spans cloud-native pipeline architecture, Lakehouse platforms, real-time streaming systems, and the data quality frameworks that keep everything reliable.</p>
+    <p>Growing up, I was drawn to mathematics and the satisfaction of working through a problem methodically. That instinct carried into my career. I find data engineering genuinely interesting because the problems are rarely straightforward -- they require thinking carefully about systems, tradeoffs, and what happens at scale.</p>
+    <p>I am <em>naturally curious and inquisitive</em>, the kind of person who reads about how a distributed system fails before asking how it works. That curiosity, paired with a <strong>Lean Six Sigma</strong> mindset around process and reliability, shapes how I approach every project I take on.</p>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="reveal">
+    <div class="section-label">01 -- Stack</div>
+    <div class="section-title">Skills and <span>Tools</span></div>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card reveal">
+      <div class="skill-cat">Cloud Infrastructure</div>
+      <h4>AWS Platform</h4>
+      <div class="skill-tags">
+        <span class="skill-tag">S3</span><span class="skill-tag">Lambda</span><span class="skill-tag">Glue</span>
+        <span class="skill-tag">RDS</span><span class="skill-tag">CloudWatch</span><span class="skill-tag">EC2</span>
+        <span class="skill-tag">IAM</span><span class="skill-tag">SNS / SQS</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-cat">Data Platforms</div>
+      <h4>Lakehouse and Warehousing</h4>
+      <div class="skill-tags">
+        <span class="skill-tag">Databricks</span><span class="skill-tag">Snowflake</span>
+        <span class="skill-tag">Delta Lake</span><span class="skill-tag">Apache Spark</span>
+        <span class="skill-tag">Medallion Architecture</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-cat">Languages and Query</div>
+      <h4>Programming</h4>
+      <div class="skill-tags">
+        <span class="skill-tag">Python</span><span class="skill-tag">SQL</span>
+        <span class="skill-tag">HCL / Terraform</span><span class="skill-tag">Bash</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-cat">ML and Analytics</div>
+      <h4>Data Science Layer</h4>
+      <div class="skill-tags">
+        <span class="skill-tag">scikit-learn</span><span class="skill-tag">Pandas</span>
+        <span class="skill-tag">Feature Engineering</span><span class="skill-tag">ML Pipelines</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-cat">DevOps and Tooling</div>
+      <h4>Engineering Workflow</h4>
+      <div class="skill-tags">
+        <span class="skill-tag">Terraform</span><span class="skill-tag">Git</span>
+        <span class="skill-tag">CI/CD</span><span class="skill-tag">Jira</span><span class="skill-tag">Agile / Scrum</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-cat">Quality and Reliability</div>
+      <h4>Operational Excellence</h4>
+      <div class="skill-tags">
+        <span class="skill-tag">Lean Six Sigma</span><span class="skill-tag">Data Quality</span>
+        <span class="skill-tag">SLA Monitoring</span><span class="skill-tag">Observability</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="reveal">
+    <div class="section-label">02 -- Work</div>
+    <div class="section-title">Featured <span>Projects</span></div>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card reveal">
+      <div class="project-lang"><span class="lang-dot" style="background:#844fba;"></span> HCL / Terraform</div>
+      <h3>AWS Cloud Infrastructure Alerting System</h3>
+      <p>Automated AWS infrastructure monitoring that detects resource stress and triggers real-time alerts, enabling proactive incident response and improving platform reliability.</p>
+      <div class="project-tags">
+        <span class="ptag">Infrastructure as Code</span><span class="ptag">Event-Driven Architecture</span>
+        <span class="ptag">AWS CloudWatch</span><span class="ptag">Terraform</span>
+        <span class="ptag">Lambda</span><span class="ptag">SNS</span><span class="ptag">Observability</span>
+      </div>
+      <a href="https://github.com/AtharvaGitProfile" target="_blank" class="project-link">View on GitHub</a>
+    </div>
+    <div class="project-card reveal">
+      <div class="project-lang"><span class="lang-dot" style="background:#e34c26;"></span> Databricks / PySpark</div>
+      <h3>Databricks ML Platform on AWS</h3>
+      <p>A Databricks-based Lakehouse on AWS that ingests streaming and batch data, processes it through Bronze, Silver, and Gold layers, and serves analytics and ML-driven applications downstream.</p>
+      <div class="project-tags">
+        <span class="ptag">Medallion Architecture</span><span class="ptag">Delta Lake</span>
+        <span class="ptag">Apache Spark</span><span class="ptag">Batch and Streaming Ingestion</span>
+        <span class="ptag">ML-Ready Data</span><span class="ptag">AWS S3</span><span class="ptag">Databricks</span>
+      </div>
+      <a href="https://github.com/AtharvaGitProfile" target="_blank" class="project-link">View on GitHub</a>
+    </div>
+    <div class="project-card reveal">
+      <div class="project-lang"><span class="lang-dot" style="background:#3572A5;"></span> Python</div>
+      <h3>Financial Data Quality Pipeline</h3>
+      <p>End-to-end streaming pipeline for financial data with schema validation, quarantine zones, and automated quality checks, ensuring only clean compliant data reaches downstream consumers.</p>
+      <div class="project-tags">
+        <span class="ptag">Streaming Pipeline</span><span class="ptag">Data Quality Framework</span>
+        <span class="ptag">Schema Validation</span><span class="ptag">Quarantine Pattern</span>
+        <span class="ptag">SLA Enforcement</span><span class="ptag">Python</span><span class="ptag">AWS</span>
+      </div>
+      <a href="https://github.com/AtharvaGitProfile" target="_blank" class="project-link">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<section id="certifications">
+  <div class="reveal">
+    <div class="section-label">03 -- Credentials</div>
+    <div class="section-title">Licenses and <span>Certifications</span></div>
+  </div>
+  <div class="certs-grid">
+    <div class="cert-card reveal">
+      <div class="cert-logo aws">aws</div>
+      <div><div class="cert-name">AWS Certified Solutions Architect, Associate</div><div class="cert-issuer">Amazon Web Services</div><div class="cert-date">Dec 2024 - Expires Dec 2027</div></div>
+    </div>
+    <div class="cert-card reveal">
+      <div class="cert-logo aws">aws</div>
+      <div><div class="cert-name">AWS Certified AI Practitioner</div><div class="cert-issuer">Amazon Web Services</div><div class="cert-date">Feb 2025 - Expires Feb 2028</div></div>
+    </div>
+    <div class="cert-card reveal">
+      <div class="cert-logo snow">snow</div>
+      <div><div class="cert-name">Hands On Essentials: Data Warehouse</div><div class="cert-issuer">Snowflake</div><div class="cert-date">Issued May 2025</div></div>
+    </div>
+    <div class="cert-card reveal">
+      <div class="cert-logo atlas">A</div>
+      <div><div class="cert-name">Agile Project Management Professional Certificate</div><div class="cert-issuer">Atlassian</div><div class="cert-date">Issued May 2025</div></div>
+    </div>
+    <div class="cert-card reveal">
+      <div class="cert-logo cssc">6s</div>
+      <div><div class="cert-name">Lean Six Sigma Green Belt</div><div class="cert-issuer">Council for Six Sigma Certification</div><div class="cert-date">Issued Sep 2024</div></div>
+    </div>
+    <div class="cert-card reveal">
+      <div class="cert-logo hrank">H</div>
+      <div><div class="cert-name">SQL Advanced Certification</div><div class="cert-issuer">HackerRank</div><div class="cert-date">Issued Nov 2022</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="looking-for">
+  <div class="reveal">
+    <div class="section-label">04 -- Fit</div>
+    <div class="section-title">What I am <span>looking for</span></div>
+  </div>
+  <div class="lf-grid reveal">
+    <div class="lf-text">
+      <p>I am looking for a role where data infrastructure is central to something meaningful. Teams moving fast, working with real data scale challenges, who want an engineer that thinks carefully about platform design and long-term reliability.</p>
+      <p>What genuinely excites me is being part of work that <strong>transforms how a business uses its data</strong>. Whether that is building the pipelines that feed a real-time ML system, designing a Lakehouse that scales with the product, or bringing observability to a platform that entire teams depend on, I want to be where that transformation is happening.</p>
+      <p>I am drawn to organisations where data engineering has a real seat at the table, and where the problems ahead are worth solving with care and precision.</p>
+    </div>
+    <div class="lf-cards">
+      <div class="lf-card">
+        <div class="lf-icon">🏗</div>
+        <div><strong>Roles I am targeting</strong><span>Data Engineer, ML Platform Engineer, Analytics Engineer, Data Infrastructure Engineer</span></div>
+      </div>
+      <div class="lf-card">
+        <div class="lf-icon">🌍</div>
+        <div><strong>Environments</strong><span>Data-driven product companies and high-growth teams where data is core to the product</span></div>
+      </div>
+      <div class="lf-card">
+        <div class="lf-icon">📈</div>
+        <div><strong>Long-term direction</strong><span>Platform architecture, ML infrastructure, and staff-level data systems design</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="different">
+  <div class="reveal">
+    <div class="section-label">05 -- Perspective</div>
+    <div class="section-title">What makes me <span>different</span></div>
+  </div>
+  <div class="diff-grid reveal">
+    <div class="diff-card">
+      <div class="diff-num">01</div>
+      <h3>I understand the layer above the data</h3>
+      <p>I have built ML pipelines and feature engineering workflows firsthand. When I design a data platform, I know what the data scientists and ML engineers actually need from it. I think about feature freshness, schema contracts, and training-serving skew because I have experienced what happens when those things are not right.</p>
+    </div>
+    <div class="diff-card">
+      <div class="diff-num">02</div>
+      <h3>Cloud-certified and genuinely cloud-native</h3>
+      <p>AWS Solutions Architect and AI Practitioner certified, with real projects to back it up. Infrastructure as Code with Terraform, event-driven serverless architectures, Lakehouse platforms built on AWS. My Lean Six Sigma background means reliability and observability are designed in from day one, not retrofitted after things break.</p>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="reveal" style="position:relative;z-index:1;">
+    <div class="section-label">06 -- Contact</div>
+    <div class="section-title">Let us <span>connect</span></div>
+    <p class="contact-sub">Open to Data Engineering and ML Platform roles. If you are working on something worth building, I would like to hear about it.</p>
+    <div class="contact-links">
+      <a href="mailto:patilath98@gmail.com" class="cbtn primary">Send me an email</a>
+      <a href="https://www.linkedin.com/in/patilatharva/" target="_blank" class="cbtn ghost">LinkedIn</a>
+      <a href="https://github.com/AtharvaGitProfile" target="_blank" class="cbtn ghost">GitHub</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-name">Atharva Patil - Data Engineer</div>
+  <div class="footer-copy">2026</div>
+</footer>
+
+<script>
+document.querySelectorAll('.reveal').forEach(function(el) { el.classList.add('hidden'); });
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry, i) {
+    if (entry.isIntersecting) {
+      setTimeout(function() {
+        entry.target.classList.remove('hidden');
+        entry.target.classList.add('visible');
+      }, i * 55);
+    }
+  });
+}, { threshold: 0.05 });
+document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
+var sections = document.querySelectorAll('section[id]');
+var navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', function() {
+  var current = '';
+  sections.forEach(function(s) { if (wi
